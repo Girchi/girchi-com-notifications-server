@@ -5,7 +5,8 @@ const moment = require('moment');
 module.exports = {
 	verifyToken: token => {
 		return new Promise((resolve, reject) => {
-			jwt.verify(token, "beso" ,{ algorithms: ['HS256']},(error, decoded) => {
+			const pub = fs.readFileSync(process.env.PUBLIC_KEY);
+			jwt.verify(token, pub,(error, decoded) => {
 				if (error) return reject(error);
 				resolve(decoded);
 			});
