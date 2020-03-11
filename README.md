@@ -1,13 +1,6 @@
 # Notification API
 
-Create .env
-
-Example
-```
-PORT=3000
-CONNECTION_STRING=mongodb://localhost:27017/notif
-PUBLIC_KEY=/path/to/public.key
-```
+Copy .env.dist to .env
 
 Install dependencies and start the server
 ```
