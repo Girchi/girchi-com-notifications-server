@@ -18,12 +18,14 @@ Example
 ```
 {
   "text": "note text",
-  "user": "uuid"
+  "user": "uuid",
+  "link": "https://girchi.com",
+  "photoUrl": "https://girchi.com/avatar.png"
 }
 ```
 
 #### /notifications/user
-Accepts GET request expecting jwt token in header and returns notifications for given user
+Accepts GET request expecting jwt token in cookies and returns notifications for given user
 
 Header Example
 ```
@@ -31,8 +33,8 @@ Authorization: Bearer "jwt token here"
 ```
 
 #### /notifications/:id/read
-Accepts POST request expecting jwt token and sets given notification to be read
+Accepts POST request expecting jwt token in cookies and sets given notification to be read
 
 
 #### /notifications/user/unread
-Accepts GET request, returns all unread notifications by user
+Accepts GET request excepting jwt token in cookies, returns all unread notifications by user
