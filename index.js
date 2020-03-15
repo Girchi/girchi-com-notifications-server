@@ -13,7 +13,9 @@ const { logError } = require('./utils');
 
 const app = express();
 const http = require('http').Server(app);
+
 const io = require('socket.io')(http);
+const cookieParser = require("cookie-parser");
 
 const notifications = require('./routes/notifications');
 
@@ -22,6 +24,7 @@ app.use(morgan('combined', { stream: accessLogStream }));
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 app.use(cors());
+app.use(cookieParser());
 
 const {
 	PORT = 3000,
@@ -35,11 +38,10 @@ mongoose.connect(connectionString, { useNewUrlParser: true });
 
 io.on('connection', socket => {
 	socket.emit('connect');
-	socket.on('auth', ({token}) => {
-		const { uuid } = decode(token)
-
-		UserConnection.updateOne({ uuid }, {
-			uuid,
+	socket.on('auth', ({accessToken, refreshToken}) => {
+		const { user_id } = decode(accessToken)
+		UserConnection.updateOne({ uuid: user_id }, {
+			uuid: user_id,
 			socketId: socket.id
 		}, { upsert: true }).then(userConnection => {
 			// connection created
@@ -75,6 +77,7 @@ app.use((err, req, res, next) => {
 		});
 	}
 });
+
 
 http.listen(PORT, () => {
 	console.log(`running on port ${PORT}`);
