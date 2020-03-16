@@ -10,7 +10,7 @@ router.post('/', (req, res, next) => {
 		text: req.body.text,
 		link: req.body.link,
 		user: req.body.user,
-		photoUrl: req.body.photo_url
+		photoUrl: req.body.photoUrl
 	}
 
 	if (!notification.text || !notification.user) {
