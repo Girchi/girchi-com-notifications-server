@@ -27,11 +27,6 @@ Example
 #### /notifications/user
 Accepts GET request expecting jwt token in cookies and returns notifications for given user
 
-Header Example
-```
-Authorization: Bearer "jwt token here"
-```
-
 #### /notifications/:id/read
 Accepts POST request expecting jwt token in cookies and sets given notification to be read
 
