@@ -7,13 +7,19 @@ const { logError } = require('../utils');
 
 router.post('/', (req, res, next) => {
 	const notification = {
-		text: req.body.text,
+		title: req.body.title,
+		desc: req.body.desc,
+		type: req.body.type,
 		link: req.body.link,
 		user: req.body.user,
-		photoUrl: req.body.photoUrl
+		photoUrl: req.body.photoUrl,
+		created: Date.now()
 	}
 
-	if (!notification.text || !notification.user) {
+	if (!notification.title || 
+		!notification.user || 
+		!notification.desc || 
+		!notification.type) {
 		return next(new Error('Invalid notification'));
 	}
 
