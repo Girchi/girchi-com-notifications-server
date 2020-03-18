@@ -19,19 +19,22 @@ const cookieParser = require("cookie-parser");
 
 const notifications = require('./routes/notifications');
 
+const {
+	PORT = 3000,
+	NODE_ENV = 'development',
+	CONNECTION_STRING = 'mongodb://localhost:27017/notificaa',
+	CONNECTION_STRING_TESTING = 'mongodb://localhost:27017/notification-testing',
+	API_URL = 'http://girchi.docker.localhost'
+} = process.env;
+
 const accessLogStream = fs.createWriteStream(path.join(__dirname, './logs/access.log'), { flags: 'a' });
 app.use(morgan('combined', { stream: accessLogStream }));
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
-app.use(cors());
+app.use(cors({credentials: true, origin: API_URL}));
 app.use(cookieParser());
 
-const {
-	PORT = 3000,
-	NODE_ENV = 'development',
-	CONNECTION_STRING = 'mongodb://localhost:27017/notification',
-	CONNECTION_STRING_TESTING = 'mongodb://localhost:27017/notification-testing',
-} = process.env;
+
 const connectionString = NODE_ENV === 'testing' ? CONNECTION_STRING_TESTING : CONNECTION_STRING
 
 mongoose.connect(connectionString, { useNewUrlParser: true });
@@ -49,6 +52,7 @@ io.on('connection', socket => {
 			logError(error.stack);
 		});
 	});
+
 });
 
 app.use((req, res, next) => {
