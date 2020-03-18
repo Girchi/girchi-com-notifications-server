@@ -17,7 +17,9 @@ Accepts POST request and creates notification record giving json
 Example
 ```
 {
-  "text": "note text",
+  "title": "title",
+  "desc": "description",
+  "type": "type of notification",
   "user": "uuid",
   "link": "https://girchi.com",
   "photoUrl": "https://girchi.com/avatar.png"
