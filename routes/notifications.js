@@ -88,5 +88,17 @@ router.get('/user/unread', hasToken, (req, res, next) => {
 	});
 });
 
+router.get('/user/unread-count', hasToken, (req, res, next) => {
+	Notification.find({
+		user: req.uuid,
+		isRead: false
+	}).count().then(notifications => {
+		res.status(200).json({
+			"count":notifications
+		});
+	}).catch(error => {
+		next(error);
+	});
+});
 
 module.exports = router;
