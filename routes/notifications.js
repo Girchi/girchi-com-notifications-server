@@ -41,9 +41,16 @@ router.post('/', (req, res, next) => {
 });
 
 router.get('/user', hasToken, (req, res, next) => {
+	const resPerPage = 15;
+	const page = req.query.page || 1;
+	
 	Notification.find({
 		user: req.uuid
-	}).then(notifications => {
+	})
+	.sort({created: 'desc'})
+	.skip((resPerPage * page) - resPerPage)
+	.limit(resPerPage)
+	  .then(notifications => {
 		res.status(200).json({
 			notifications
 		});
