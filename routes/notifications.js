@@ -8,7 +8,9 @@ const { logError } = require('../utils');
 router.post('/', (req, res, next) => {
 	const notification = {
 		title: req.body.title,
+		title_en: req.body.title_en,
 		desc: req.body.desc,
+		desc_en: req.body.desc_en,
 		type: req.body.type,
 		link: req.body.link,
 		user: req.body.user,
@@ -16,9 +18,11 @@ router.post('/', (req, res, next) => {
 		created: Date.now()
 	}
 
-	if (!notification.title || 
+	if (!notification.title ||
+		!notification.title_en ||
 		!notification.user || 
 		!notification.desc || 
+		!notification.desc_en ||
 		!notification.type) {
 		return next(new Error('Invalid notification'));
 	}
@@ -50,7 +54,7 @@ router.get('/user', hasToken, (req, res, next) => {
 	.sort({created: 'desc'})
 	.skip((resPerPage * page) - resPerPage)
 	.limit(resPerPage)
-	  .then(notifications => {
+	.then(notifications => {
 		res.status(200).json({
 			notifications
 		});
