@@ -30,24 +30,27 @@ router.post('/', (req, res, next) => {
 	Notification
 		.create(notification)
 		.then(notification => {
-			return UserConnection.findOne({ uuid: notification.user });
-		}).then(connection => {
-			if (connection)
+			return {connection: UserConnection.findOne({ uuid: notification.user }).exec(), notification} ;
+		})
+		.then(({connection, notification}) => {
+			connection.then( (connection) => {
+				if (connection)
 				req.io.to(connection.socketId).emit('notification added', notification);
 
 			res.status(201).send({
 				message: 'Notification created',
 				notification
 			});
+			}	
+			)
 		}).catch(error => {
 			next(error);
 		});
 });
 
 router.get('/user', hasToken, (req, res, next) => {
-	const resPerPage = 15;
 	const page = req.query.page || 1;
-	
+	const resPerPage = page == 1 ? 5 : 15;
 	Notification.find({
 		user: req.uuid
 	})
