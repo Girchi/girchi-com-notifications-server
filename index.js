@@ -38,7 +38,6 @@ app.use(cookieParser());
 const connectionString = NODE_ENV === 'testing' ? CONNECTION_STRING_TESTING : CONNECTION_STRING
 
 mongoose.connect(connectionString, { useNewUrlParser: true });
-
 io.on('connection', socket => {
 	socket.emit('connect');
 	socket.on('auth', ({accessToken, refreshToken}) => {
@@ -52,6 +51,9 @@ io.on('connection', socket => {
 			logError(error.stack);
 		});
 	});
+	socket.on('notification read', ({_id}) => {
+		socket.emit("rerender notification", {_id});
+	})
 
 });
 
