@@ -50,7 +50,7 @@ router.post('/', (req, res, next) => {
 
 router.get('/user', hasToken, (req, res, next) => {
 	const page = req.query.page || 1;
-	const resPerPage = page == 1 ? 5 : 15;
+	const resPerPage = 6;
 	Notification.find({
 		user: req.uuid
 	})
