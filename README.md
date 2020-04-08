@@ -18,7 +18,9 @@ Example
 ```
 {
   "title": "title",
+  "title_en: "title_en",
   "desc": "description",
+  "desc": "description_en",
   "type": "type of notification",
   "user": "uuid",
   "link": "https://girchi.com",
@@ -35,3 +37,6 @@ Accepts POST request expecting jwt token in cookies and sets given notification 
 
 #### /notifications/user/unread
 Accepts GET request excepting jwt token in cookies, returns all unread notifications by user
+
+#### /user/unread-count
+Accepts GET request excepting jwt token in cookies, returns count ofr unread notifications
